@@ -1,0 +1,44 @@
+
+/* 自动生成实体类  */
+configurations {
+    mybatisGenerator
+}
+//依赖库
+dependencies {
+    //生成类
+    mybatisGenerator 'org.mybatis.generator:mybatis-generator-core:1.3.5'
+    mybatisGenerator 'mysql:mysql-connector-java:5.1.40'
+    mybatisGenerator 'tk.mybatis:mapper:3.3.9'
+}
+
+def getDbProperties = {
+    def properties = new Properties()
+    file("src/main/resources/application.yml").withInputStream { inputStream ->
+        properties.load(inputStream) //println properties
+    }
+    properties
+}
+
+task mybatisGenerate << {
+    def properties = getDbProperties()
+    ant.properties['targetProject'] = projectDir.path
+    ant.properties['db.driver-class'] = properties.getProperty("pro_db_driver_class")
+    ant.properties['db.url'] = properties.getProperty("pro_db_url")
+    ant.properties['db.username'] = properties.getProperty("pro_db_username")
+    ant.properties['db.password'] = properties.getProperty("pro_db_password")
+    ant.taskdef(
+            name: 'mbgenerator',
+            classname: 'org.mybatis.generator.ant.GeneratorAntTask',
+            classpath: configurations.mybatisGenerator.asPath
+    )
+    ant.mbgenerator(overwrite: true,
+            configfile: 'src/main/resources/config/generatorConfig.xml', verbose: true) {
+        propertyset {
+            propertyref(name: 'targetProject')
+            propertyref(name: 'db.driver-class')
+            propertyref(name: 'db.url')
+            propertyref(name: 'db.username')
+            propertyref(name: 'db.password')
+        }
+    }
+}

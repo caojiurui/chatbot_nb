@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<include resource="org/springframework/boot/logging/logback/defaults.xml" />
+	<include resource="org/springframework/boot/logging/logback/console-appender.xml" />
+
+	<property name="log.pattern" value="%-6d{yyyy-MM-dd HH:mm:ss} %-6level %logger - %msg%n" />
+
+	<!-- 控制台 -->
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder charset="UTF-8">
+			<pattern>${log.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<appender name="ALL_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_FILE}/all.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_FILE}.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+			<maxHistory>365</maxHistory>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>100MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder charset="UTF-8">
+            <pattern>${log.pattern}</pattern>
+        </encoder>
+        <append>true</append>
+    </appender>
+
+
+	<!-- 下面配置一些第三方包的日志过滤级别，用于避免刷屏 -->
+	<logger name="org.springframework" level="ERROR"/>
+	<logger name="org.hibernate" level="ERROR"/>
+	<logger name="org.apache" level="ERROR"/>
+	<logger name="com.alibaba.druid" level="ERROR"/>
+	<logger name="net.sf.ehcache" level="ERROR"/>
+	<logger name="org.quartz" level="ERROR" />
+	<logger name="freemaker" level="ERROR" />
+	<logger name="dao" level="ERROR" />
+	<logger name="org.mybatis.spring" level="ERROR" />
+
+	<!-- 输出SQL语句 -->
+	<!--<property name="logging.level.debug" value="DEBUG" />-->
+	<logger name="com.ibatis" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="java.sql.Connection" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="java.sql.Statement" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="java.sql.PreparedStatement" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="java.sql.ResultSet" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+	<logger name="cn.j0.conf.mapper" level="${logging.level.debug}" additivity="false">
+		<appender-ref ref="CONSOLE" />
+	</logger>
+
+	<root level="${logging.level.info}">
+		<appender-ref ref="CONSOLE" />
+		<appender-ref ref="ALL_FILE" />
+	</root>
+
+</configuration>

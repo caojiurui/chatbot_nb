@@ -1,0 +1,42 @@
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+apply plugin: 'org.springframework.boot'
+
+
+apply from: 'libraries.gradle' // jar包
+apply from: 'tasks.gradle' // tasks
+
+version = '1.0.0'
+sourceCompatibility = 1.7
+
+task wrapper(type: Wrapper, description: 'Manage the Gradle version') { gradleVersion = '3.0' }
+
+
+//打包名称
+archivesBaseName = 'ROOT'
+
+/*编译编码UTF-8*/
+[compileJava, compileTestJava]*.options*.encoding = 'UTF-8'
+
+
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		maven{ url 'http://192.168.100.252:20003/nexus/content/groups/public/'}
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+repositories {
+    maven{ url 'http://192.168.100.252:20003/nexus/content/groups/public/'}
+	mavenCentral()
+}
+
+

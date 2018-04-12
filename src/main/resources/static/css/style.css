@@ -1,0 +1,14 @@
+.title{    text-align: center; font-size: 36px;}
+.ocrContainer{    width: 600px;margin: 0px auto;border: 1px solid #ccc;padding: 10px;}
+.ocrContainer div{padding: 10px}
+.ocrContainer .ocrResultDiv img{display: block;}
+
+.ocrResultDiv{    width: 100%;margin: 0px auto;border: 1px solid #ccc;padding: 10px;height: 300px;line-height: 300px}
+.ocrResultDiv .ocrDiv img{display: block;}
+.ocrResultDiv .ocrDiv{display: inline-block;border: 1px solid #ccc;    margin-right: 20px;height: 100%;}
+.ocrResultDiv .ocrDiv p{height: 100%;float: left;}
+.ocrResultDiv .ocrDiv div{height: 90%;padding: 15px;float: left;border: 1px solid #ccc;}
+
+
+#loadingDiv{width: 100%;height: 100%;background: rgba(0,0,0,.1);z-index: 50000;position: absolute;left: 0;top: 0;}
+#loadingDiv img{z-index: 11; top: 45%;left: 48%; width:100px;height:100px;position: absolute;z-index: 20000;height: 50px;width: 50px;}
