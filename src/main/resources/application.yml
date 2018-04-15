@@ -1,14 +1,13 @@
 
 server:
-  port: 11111
+  port: 8111
   tomcat:
     uri-encoding: UTF-8
 web:
   domain:
-    site: http://192.168.100.222:${server.port}
+    site: http://localhost:${server.port}
     upload: ${web.domain.site}/upload/
-  updateDir: "y:/"
-
+  updateDir: "d:/upload/"
 
 
 #mybatisGenerate 读文件的时候怕属性冲突，所以自定义属性
@@ -47,6 +46,14 @@ spring:
       max-idle: 1000
       max-active: 1000
       max-wait: 30000
+  data:
+    elasticsearch:
+      #cluster-name: #默认为elasticsearch
+      #cluster-nodes: 127.0.0.1: #配置es节点信息，逗号分隔，如果没有指定，则启动ClientNode
+      properties:
+        path:
+          logs: ${web.updateDir}/elasticsearch/log #elasticsearch日志存储目录
+          data: ${web.updateDir}/elasticsearch/data #elasticsearch数据存储目录
 
 
 mybatis:
@@ -65,10 +72,8 @@ pagehelper:
   helperDialect: mysql
   supportMethodsArguments: true
 
-
-
 logging:
-  file: "D:/log/chatbot_nb.log"
+  file: ${web.updateDir}/log/chatbot_nb.log
   level:
     info: INFO
     debug: DEBUG
